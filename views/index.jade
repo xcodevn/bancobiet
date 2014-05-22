@@ -1,0 +1,29 @@
+doctype html
+html(lang=vi)
+  head
+    title Bạn có biết...
+    link(href="/css/hi.css", rel="stylesheet")
+    link(href="/css/font-awesome.min.css", rel="stylesheet")
+  body
+  
+    .container
+      a(style="font-size:25px;margin-top:30px;display:inline-block;", href="/") Bạn có biết ...
+      a.btn.btn-primary.btn-small(href="/new", style="float:right;margin-top:30px")  
+        | mới 
+        span.fui-plus
+
+      hr
+      blockquote(style="margin:50px 0px 50px 0;display:block;overflow-x:auto")
+        p!= row.text
+        br
+        small(style="float:left")
+          | Nguồn: 
+          a(href=row.source) #{row.source}
+        div(style="display:inline;float:right;")
+          a.btn.btn-inverse.btn-small(href="/more")  
+            | nhiều hơn 
+            span.fui-play
+      hr
+      
+
+

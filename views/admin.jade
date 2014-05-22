@@ -1,0 +1,28 @@
+doctype html
+html(lang=vi)
+  head
+    title Bạn có biết...
+    link(href="css/hi.css", rel="stylesheet")
+    link(href="css/font-awesome.min.css", rel="stylesheet")
+  body
+  
+    .container
+      a(style="font-size:25px;margin-top:30px;display:inline-block;", href="/") Trang quản trị 
+
+      hr
+      each post in rows 
+        div(style="margin:0;display:block;overflow-wrap: break-word;overflow-x:auto")
+          div(style="margin-left:10px;display:inline;float:right;")
+            .btn-group
+              a.btn(href="/accept/"+post.id) Đăng
+              a.btn(href="/edit/"+post.id) Sửa
+              a.btn(href="/delete/"+post.id) Xóa
+          p= post.text
+            
+          small(style="float:left")
+            | Nguồn: 
+            a(href=post.source) #{post.source}
+        hr
+      
+
+

@@ -1,0 +1,9 @@
+{
+  "name": "ban-co-biet",
+  "description": "Chia sẻ những điều thú vị về lịch sử, khoa học, và nhiều thứ khác",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.3.0"
+  }
+}
