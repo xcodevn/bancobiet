@@ -1,10 +1,30 @@
 extends layout
 
+block js
+  script(src="/js/jquery-1.7.2.min.js", type="text/javascript")
+
 block fst-content
   a.title(href="/") Bạn có biết ...
   a.newpost-btn.btn.btn-primary.btn-small(href="/new")  
     | tạo mới 
     i.fa.fa-plus
+  script.
+    subscribe = function() {
+      var email = prompt("Vui lòng nhập địa chỉ email bạn muốn nhận tin", "abc@gmail.com");
+      console.log(email);
+      if (email != null) {
+        var form = $('<form action="/subscribe" method="post">' +
+          '<input type="text" name="email" value="' + email + '" />' +
+          '</form>');
+        $(form).submit();
+      }
+
+      return false;
+    }
+  
+
+  a.newpost-btn.btn.btn-inverse.btn-small(href="#subscribe",style="margin-right:10px",onclick="subscribe();")
+    | nhận email 
   
 block snd-content
   blockquote.content
