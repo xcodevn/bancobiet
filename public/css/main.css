@@ -1,0 +1,100 @@
+html, body, #container { height: 100%; }
+body > .container { height: auto; min-height: 100%; }
+
+.container .title {
+  font-size:25px;
+  margin-top:30px;
+  display:inline-block;
+  text-transform: uppercase;
+  font-size: 1.2em;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.newpost-btn {
+  float:right;
+  margin-top:30px;
+}
+
+.container .content {
+  margin:10px 0px 10px 0;
+  display:block;
+  overflow-x:auto;
+  color: rgb(82, 68, 61);
+
+
+}
+
+.content small {
+  color:#888;
+  float:left;
+}
+
+#facebook {
+  display:inline;
+  float:right;
+}
+
+#fbframe{
+  border:none; 
+  overflow:hidden;
+  height:30px;
+  width:150px;
+  display:block;
+}
+
+#bottom {
+  background-color:#FFF;
+  clear:both;
+  position:relative;
+  z-index:10;
+  height:3em;
+  margin-top:-3em;
+}
+
+.subpage{
+  font-size:25px;
+  margin-top:30px;
+  display:inline-block;
+  text-transform: uppercase;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-left:10px;
+  color: #aaa;
+}
+
+.activepage{
+  font-size:25px;
+  margin-top:30px;
+  display:inline-block;
+  text-transform: uppercase;
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #c55;
+}
+
+.indexad {
+  margin-left:10px;
+}
+
+#editform {
+  margin:20px 0px 10px 0;
+  display:block;
+  overflow-x:auto;
+}
+
+#myeditor {
+  box-sizing: border-box; 
+  width:100%;
+  min-height:180px;
+  font: 'Museo Sans';
+  font-size: 1.2em;
+}
+
+#inputsource {
+  display:block;
+  box-sizing: border-box;
+  width: 100%;
+}

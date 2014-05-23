@@ -21,13 +21,15 @@ app.use express.static __dirname + '/public'
 cookieParser = require 'cookie-parser'
 session      = require 'express-session'
 app.use cookieParser()
-app.use session({ secret: 'thong tin bi mat khong ai co the biet duoc', name: 'sid'})
+app.use session({ secret: 'thong tin bi mat khong ai co the biet duoc', name: 'sid', cookie: { maxAge: 600000}})
 
 app.use logger()
 app.use errorHandler({ dumpExceptions: false, showStack: false })
 app.use bodyParser()
 
 
+getFullURL = (req) ->
+  "#{req.protocol}://bcb.drstartup.vn#{req.path}"
 
 app.set 'views', __dirname + '/views'
 app.set 'view engine', 'jade'
@@ -77,7 +79,7 @@ app.get '/', (req, res) ->
     if err?
       res.render 'error'
     else
-      res.render 'index', {row: row}
+      res.render 'index', {row: row, url: getFullURL(req)}
 
 app.get '/error', (req, res) ->
   res.render 'error', {}
@@ -118,12 +120,19 @@ app.get '/accept/:id', requireAdmin, (req, res) ->
       res.render 'error'
   res.redirect '/admin'
 
+app.get '/reject/:id', requireAdmin, (req, res) ->
+  db.run 'UPDATE tb_post SET status = ? WHERE id = ?', "NEWPOST", req.params.id[0], (err) ->
+    if err?
+      console.log err
+      res.render 'error'
+  res.redirect '/admin'
+
 app.get '/post/:id', (req, res) ->
   db.get "SELECT * FROM tb_post WHERE status = ? AND id = ?", "ACCEPTED", req.params.id[0], (err, row) ->
     if err? or not row?
       res.render 'error'
     else
-      res.render 'index', {row: row}
+      res.render 'index', {row: row, url: getFullURL(req)}
 
 app.get '/delete/:id', requireAdmin, (req, res) ->
   db.run 'DELETE FROM tb_post WHERE id = ?', req.params.id[0], (err) ->

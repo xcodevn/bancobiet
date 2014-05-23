@@ -1,36 +1,24 @@
-doctype html
-html(lang=vi)
-  head
-    title Bạn có biết...
-    link(href="/css/hi.css", rel="stylesheet")
-    link(href="/css/font-awesome.min.css", rel="stylesheet")
-    link(href="/css/bootstrap-wysihtml5-0.0.2.css", rel="stylesheet")
-    script(src="/js/wysihtml5-0.3.0.js", type="text/javascript")
-    script(src="/js/jquery-1.7.2.min.js", type="text/javascript")
-    script(src="/js/bootstrap.min.js", type="text/javascript")
-    script(src="/js/bootstrap-wysihtml5-0.0.2.js", type="text/javascript")
-  body
-  
-    .container
-      a(style="font-size:25px;margin-top:30px;display:inline-block;", href="/") Chỉnh sửa ...
+extends layout
+block js
+  link(href="/css/bootstrap-wysihtml5-0.0.2.css", rel="stylesheet")
+  script(src="/js/wysihtml5-0.3.0.js", type="text/javascript")
+  script(src="/js/jquery-1.7.2.min.js", type="text/javascript")
+  script(src="/js/bootstrap.min.js", type="text/javascript")
+  script(src="/js/bootstrap-wysihtml5-0.0.2.js", type="text/javascript")
 
-      hr
-      div(style="margin:20px 0px 10px 0;display:block;overflow-x:auto")
-          form(method="POST", action="/edit/" + row.id)
-            textarea#myeditor(name="usertext",placeholder="Nhập thông tin ở đây",style="box-sizing: border-box; width:100%;min-height:180px;font: 'Museo Sans';font-size: 1.2em;resize:auto;")
-              | #{row.text}
+block fst-content
+  a.title(href="/admin") Chỉnh sửa ...
 
+block snd-content
+  #editform
+      form(method="POST", action="/edit/" + row.id)
+        textarea#myeditor(name="usertext", placeholder="Nhập thông tin ở đây")
+          | #{row.text}
 
+        script(type='text/javascript').
+          $('#myeditor').wysihtml5();
 
-            script(type='text/javascript').
-              $('#myeditor').wysihtml5();
-
-            input.form-control.block(name="source", value=row.source, type="text", placeholder="Nguồn chứng thực thông tin", style="display:block;box-sizing: border-box;width: 100%;")
-            div(style="display:inline;float:right;")
-              a.btn.btn-success.btn-small(href="#submit",onclick="$(this).closest('form').submit();")
-                | Cập nhật
-
-      hr
-      
-
+        input#inputsource.form-control.block(name="source", value=row.source, type="text", placeholder="Nguồn chứng thực thông tin")
+        div(style="display:inline;float:right;")
+          a.btn.btn-success.btn-small(href="#submit",onclick="$(this).closest('form').submit();") Cập nhật
 

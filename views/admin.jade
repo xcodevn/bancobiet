@@ -1,28 +1,26 @@
-doctype html
-html(lang=vi)
-  head
-    title Bạn có biết...
-    link(href="css/hi.css", rel="stylesheet")
-    link(href="css/font-awesome.min.css", rel="stylesheet")
-  body
-  
-    .container
-      a(style="font-size:25px;margin-top:30px;display:inline-block;", href="/") Trang quản trị 
+extends layout
 
-      hr
-      each post in rows 
-        div(style="margin:0;display:block;overflow-wrap: break-word;overflow-x:auto")
-          div(style="margin-left:10px;display:inline;float:right;")
-            .btn-group
-              a.btn(href="/accept/"+post.id) Đăng
-              a.btn(href="/edit/"+post.id) Sửa
-              a.btn(href="/delete/"+post.id) Xóa
-          p= post.text
-            
-          small(style="float:left")
-            | Nguồn: 
-            a(href=post.source) #{post.source}
-        hr
-      
+block fst-content
+  a.activepage(href="/admin") quản trị 
+  a.subpage(href="/admin-all") quản trị*
+  a.subpage(href="/") home
 
+block snd-content
+  each post in rows 
+    div(style="margin:0;display:block;overflow-wrap: break-word;overflow-x:auto")
+      div(style="margin-left:10px;display:inline;float:right;")
+        .btn-group
+          if (post.status == "ACCEPTED")
+            a.btn(href="/reject/"+post.id) bỏ đăng
+          else
+            a.btn(href="/accept/"+post.id) đăng
+          a.btn(href="/edit/"+post.id) sửa
+          a.btn(href="/delete/"+post.id) xóa
+      p= post.text
+        
+      small(style="float:left")
+        | Nguồn: 
+        a(href=post.source) #{post.source}
+    hr
+  | End of list!
 
