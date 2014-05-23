@@ -1,29 +1,36 @@
 doctype html
-html(lang=vi)
+html(lang=vi,style="height:100%; min-height:100%;")
   head
     title Bạn có biết...
     link(href="/css/hi.css", rel="stylesheet")
     link(href="/css/font-awesome.min.css", rel="stylesheet")
-  body
-  
-    .container
+  body(style="height:100%;min-height:100%")
+
+    .container(style="height:auto;min-height:100%;")
       a(style="font-size:25px;margin-top:30px;display:inline-block;", href="/") Bạn có biết ...
       a.btn.btn-primary.btn-small(href="/new", style="float:right;margin-top:30px")  
-        | mới 
-        span.fui-plus
-
+        | tạo mới 
+        i.fa.fa-plus-circle
       hr
-      blockquote(style="margin:50px 0px 50px 0;display:block;overflow-x:auto")
+  
+      blockquote(style="margin:10px 0px 110px 0;display:block;overflow-x:auto")
         p!= row.text
         br
-        small(style="float:left")
+        small(style="color:#888;float:left")
           | Nguồn: 
           a(href=row.source) #{row.source}
         div(style="display:inline;float:right;")
+          iframe(src="//www.facebook.com/plugins/like.php?href=http://google.com&width=150px&layout=button_count&action=like&show_faces=true&share=true&height=21",scrolling="no",frameborder="0",style="border:none; overflow:hidden;height:50px;width:150px;display:block;",allowTransparency="true")
           a.btn.btn-inverse.btn-small(href="/more")  
             | nhiều hơn 
-            span.fui-play
-      hr
-      
+            i.fa.fa-forward
 
+    div#bottom(style="background-color:#FFF;clear:both;position:relative;z-index:10;height:3em;margin-top:-3em;")
+      center
+        a(href="/aboutus")  
+          | Về chúng tôi 
+          i.fa.fa-like
+        a(style="margin-left:10px;", href="#subscribe")  
+          | thông báo qua email 
+          i.fa.fa-bullhorn
 

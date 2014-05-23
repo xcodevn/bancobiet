@@ -50,7 +50,7 @@ app.get '/more', (req, res) ->
     if err?
       res.render 'error'
     else
-      res.render 'index', {row: row}
+      res.redirect "/post/#{row.id}"
 
 app.get '/new', (req, res) ->
   res.render 'new', {}
@@ -84,6 +84,14 @@ app.get '/error', (req, res) ->
 
 app.get '/admin', requireAdmin, (req, res) ->
   db.all "SELECT * FROM tb_post WHERE status = ? ORDER BY date desc", "NEWPOST", (err, rows) ->
+    if err?
+      console.log err
+      res.render 'error', {}
+    else
+      res.render 'admin', {"rows": rows}
+
+app.get '/admin-all', requireAdmin, (req, res) ->
+  db.all "SELECT * FROM tb_post", (err, rows) ->
     if err?
       console.log err
       res.render 'error', {}
