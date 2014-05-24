@@ -13,6 +13,7 @@
     "escape-html": "~1.0.1",
     "cookie-parser": "~1.1.0",
     "express-session": "~1.2.0",
-    "nodemailer": "~0.6.5"
+    "nodemailer": "~0.6.5",
+    "captcha": "0.0.4"
   }
 }

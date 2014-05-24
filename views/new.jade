@@ -18,6 +18,11 @@ block snd-content
           $('#myeditor').wysihtml5();
 
         input#inputsource.form-control.block(name="source", type="text", placeholder="Nguồn tin")
+        span
+          input.form-control(name="captcha", type="text", placeholder="Bạn là robot?")
+          img(src="/capcha.jpg", height="60px", width="120px")
+          a.btn.btn-inverse.btn-small(href="/new")
+            i.fa.fa-refresh
         div(style="display:inline;float:right;")
           a.btn.btn-success.btn-small(href="#submit",onclick="$(this).closest('form').submit();") Tạo
 

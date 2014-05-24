@@ -1,0 +1,28 @@
+extends layout
+
+block js
+  script(src="/js/jquery-1.7.2.min.js", type="text/javascript")
+
+block fst-content
+  a.title(href="/") Bạn có biết ...
+  #facebook
+    a.xck.btn.btn-inverse.btn-small(href="/more")  
+      | xem cái khác 
+      i.fa.fa-lightbulb-o
+  
+
+  
+block snd-content
+  blockquote.content
+    if (row != null)
+      p!= row.text
+        br
+        small Nguồn: 
+          a(href=row.source) #{row.source}
+      #facebook
+        iframe#fbframe(src="//www.facebook.com/plugins/like.php?href="+url+"&width=150px&layout=button_count&action=like&show_faces=true&share=true&height=21",scrolling="no",frameborder="0", allowTransparency="true")
+    else
+      | Empty list!
+
+block disqus
+  include disqus.html

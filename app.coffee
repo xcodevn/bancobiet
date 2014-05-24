@@ -22,8 +22,11 @@ app.use express.static __dirname + '/public'
 
 cookieParser = require 'cookie-parser'
 session      = require 'express-session'
+captcha      = require 'captcha'
 app.use cookieParser()
 app.use session({ secret: 'thong tin bi mat khong ai co the biet duoc', name: 'sid', cookie: { maxAge: 600000}})
+
+app.use captcha {url: '/capcha.jpg?.*', color:'#6064cd', background: '#fff' }
 
 app.use logger()
 app.use errorHandler({ dumpExceptions: false, showStack: false })
@@ -73,7 +76,7 @@ app.get '/boaimabietduoc', (req, res) ->
 
 app.get '/more', (req, res) ->
   db.get 'SELECT * FROM tb_post WHERE status = "ACCEPTED" ORDER BY RANDOM() LIMIT 1', (err, row) ->
-    if err?
+    if err? or not row?
       res.render 'error'
     else
       res.redirect "/post/#{row.id}"
@@ -171,7 +174,7 @@ app.get '/post/:id', (req, res) ->
     if err? or not row?
       res.render 'error'
     else
-      res.render 'index', {row: row, url: getFullURL(req)}
+      res.render 'post', {row: row, url: getFullURL(req)}
 
 app.get '/delete/:id', requireAdmin, (req, res) ->
   db.run 'DELETE FROM tb_post WHERE id = ?', req.params.id[0], (err) ->
