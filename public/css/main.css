@@ -94,9 +94,17 @@ body > .container { height: auto; min-height: 100%; }
 }
 
 #inputsource {
-  display:block;
+  margin:0;
   box-sizing: border-box;
-  width: 100%;
+  margin-right:10px;
+  min-width:300px;
+}
+
+#captcha {
+  margin:0;
+  box-sizing: border-box;
+  margin-right:10px;
+  width:150px;
 }
 
 .xck {

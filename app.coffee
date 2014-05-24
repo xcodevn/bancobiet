@@ -26,7 +26,7 @@ captcha      = require 'captcha'
 app.use cookieParser()
 app.use session({ secret: 'thong tin bi mat khong ai co the biet duoc', name: 'sid', cookie: { maxAge: 600000}})
 
-app.use captcha {url: '/capcha.jpg?.*', color:'#6064cd', background: '#fff' }
+app.use captcha {url: '/captcha.jpg', color:'#6064cd', background: '#fff' }
 
 app.use logger()
 app.use errorHandler({ dumpExceptions: false, showStack: false })
@@ -35,7 +35,7 @@ app.use bodyParser()
 
 
 nodemailer = require 'nodemailer'
-smtpTransport = nodemailer.createTransport 'SMTP',{service:"Gmail",auth:{user:"noreply.bancobiet@gmail.com",pass:"xxxxxxxxxxxx"}}
+smtpTransport = nodemailer.createTransport 'SMTP',{service:"Gmail",auth:{user:"noreply.bancobiet@gmail.com",pass:"you don't use for any other websites"}}
 
 sendEmail = (subject, msg, des, time=4) ->
   mailOptions = {
@@ -84,22 +84,25 @@ app.get '/more', (req, res) ->
 app.get '/new', (req, res) ->
   res.render 'new', {}
 
-app.post '/new', [], (req, res) ->
-  usertext = ""
-  if req.body.usertext?
-    usertext = req.body.usertext
-  source = ""
-  if req.body.source?
-    source = req.body.source
-
-  if usertext.length > 0
-    db.run "INSERT INTO tb_post (date, text, source, status) VALUES (datetime(), ?, ?,?)", usertext, source, "NEWPOST", (err) ->
-      if err?
-        console.log err
-        res.render 'error'
-    res.render 'new_ok',{}
+app.post '/new', (req, res) ->
+  if req.body.captcha != req.session.captcha
+    res.render 'new'
   else
-    res.render 'new', {}
+    usertext = ""
+    if req.body.usertext?
+      usertext = req.body.usertext
+    source = ""
+    if req.body.source?
+      source = req.body.source
+
+    if usertext.length > 0
+      db.run "INSERT INTO tb_post (date, text, source, status) VALUES (datetime(), ?, ?,?)", usertext, source, "NEWPOST", (err) ->
+        if err?
+          console.log err
+          res.render 'error'
+      res.render 'new_ok',{}
+    else
+      res.render 'new', {}
 
 app.get '/', (req, res) ->
   db.get 'SELECT * FROM tb_post WHERE status = "ACCEPTED" ORDER BY RANDOM() LIMIT 1', (err, row) ->
@@ -199,16 +202,22 @@ app.post '/edit/:id', requireAdmin, (req, res) ->
     else
       res.redirect '/admin'
 
+app.get '/subscribe', (req, res) ->
+  res.render 'subscribe'
+
 app.post '/subscribe', (req, res) ->
-  if req.body.email?
-    rd = req.body.email + ":" + String(Math.random())
-    db.run 'INSERT INTO tb_subscriber VALUES (?, ?)', req.body.email, rd, (err) ->
-      if err?
-        res.render 'error'
-      else
-        res.render 'subscribe_ok'
+  if req.body.captcha != req.session.captcha
+    res.render 'subscribe'
   else
-    res.render 'error'
+    if req.body.email?
+      rd = req.body.email + ":" + String(Math.random())
+      db.run 'INSERT INTO tb_subscriber VALUES (?, ?)', req.body.email, rd, (err) ->
+        if err?
+          res.render 'error'
+        else
+          res.render 'subscribe_ok'
+    else
+      res.render 'error'
 
 app.param('token', /^.+$/)
 app.get '/unsubscribe/:token', (req, res) ->
@@ -218,6 +227,10 @@ app.get '/unsubscribe/:token', (req, res) ->
     else
       res.render 'unsubscribe_ok'
 
+
+app.get '/captcha.jpg?:token', (req, res) ->
+  res.redirect '/captcha.jpg'
+
 app.get '*', (req, res) ->
   res.render 'error', {}
 
@@ -226,6 +239,4 @@ app.post '*', (req, res) ->
 
 server = app.listen 3000, ->
   console.log "Server is listening on port #{server.address().port}"
-
-
 
